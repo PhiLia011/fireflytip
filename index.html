@@ -62,6 +62,11 @@
   .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
   .card{background:linear-gradient(180deg,#1b2136,#161b2e);border:1px solid var(--border);border-radius:18px;padding:30px;transition:.25s}
   .card:hover{transform:translateY(-4px);border-color:var(--accent)}
+  /* 可点击跳转的游戏卡片 */
+  a.card-link{display:block;text-decoration:none;color:var(--text)}
+  a.card-link:hover{text-decoration:none;border-color:var(--accent)}
+  .card-link .go{display:inline-block;margin-top:12px;font-size:13px;color:var(--accent)}
+  a.card-link:hover .go{color:var(--accent2)}
   .card .num{font-size:13px;color:var(--accent);font-family:monospace;margin-bottom:6px}
   .card .cap{font-size:16px;font-weight:700;margin-bottom:6px}
 
@@ -154,10 +159,10 @@
   <div class="section-head"><div class="icon">✨</div><h2>能陪你做的，比你想的更多</h2><p>群聊 AI 聊天 + 米游社系列游戏功能，全部免费开放</p></div>
   <div class="cards">
     <div class="card"><div class="cap">💬 群聊 AI 娱乐</div><p style="color:var(--muted);font-size:14px">拉进群即可陪聊，脑筋急转弯、成语接龙、今日运势……活跃群气氛的一把好手</p></div>
-    <div class="card"><div class="cap">🗡️ 原神</div><p style="color:var(--muted);font-size:14px">角色 / 武器 / 材料查询、深渊配队建议、抽卡分析等常用功能</p></div>
-    <div class="card"><div class="cap">🚂 崩坏：星穹铁道</div><p style="color:var(--muted);font-size:14px">星铁角色养成、光锥与遗器查询、配队推荐</p></div>
-    <div class="card"><div class="cap">📟 绝区零</div><p style="color:var(--muted);font-size:14px">代理人养成、音擎与驱动盘查询</p></div>
-    <div class="card"><div class="cap">⚡ 崩坏3</div><p style="color:var(--muted);font-size:14px">女武神、圣痕与武器查询</p></div>
+    <a class="card card-link" href="https://ys.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">🗡️ 原神</div><p style="color:var(--muted);font-size:14px">角色 / 武器 / 材料查询、深渊配队建议、抽卡分析等常用功能</p><span class="go">打开官网 →</span></a>
+    <a class="card card-link" href="https://sr.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">🚂 崩坏：星穹铁道</div><p style="color:var(--muted);font-size:14px">星铁角色养成、光锥与遗器查询、配队推荐</p><span class="go">打开官网 →</span></a>
+    <a class="card card-link" href="https://zzz.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">📟 绝区零</div><p style="color:var(--muted);font-size:14px">代理人养成、音擎与驱动盘查询</p><span class="go">打开官网 →</span></a>
+    <a class="card card-link" href="https://honkai3.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">⚡ 崩坏3</div><p style="color:var(--muted);font-size:14px">女武神、圣痕与武器查询</p><span class="go">打开官网 →</span></a>
     <div class="card"><div class="cap">📅 米游社自动签到</div><p style="color:var(--muted);font-size:14px">绑定账号后每日自动签到，奖励天天领</p></div>
   </div>
 </section>
