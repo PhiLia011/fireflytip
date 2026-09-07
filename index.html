@@ -96,6 +96,14 @@
 
   /* 页脚 */
   footer{border-top:1px solid rgba(255,255,255,.06);padding:34px 0;text-align:center;color:var(--muted);font-size:13px}
+  /* 联系主人卡片 */
+  .owner-card{max-width:560px;margin:0 auto;background:linear-gradient(180deg,#1b2136,#161b2e);border:1px solid var(--border);border-radius:20px;padding:34px;text-align:center}
+  .owner-info{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:14px}
+  .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(120deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:26px}
+  .owner-name{font-size:18px;font-weight:700}
+  .owner-id{color:var(--muted);font-size:14px;font-family:monospace}
+  .owner-desc{color:var(--muted);font-size:14px;line-height:1.8;max-width:420px;margin:0 auto 22px}
+  .owner-btn{margin-top:4px}
 
   @media(max-width:720px){
     .hero h1{font-size:32px}
@@ -198,6 +206,22 @@
     <div class="card"><div class="cap">🖥️ 服务器租赁</div><p style="color:var(--muted);font-size:14px">机器人 7×24 在线运行的「房租」</p></div>
     <div class="card"><div class="cap">🤖 AI 接口</div><p style="color:var(--muted);font-size:14px">每句对话背后的按量计费</p></div>
     <div class="card"><div class="cap">🌟 持续更新</div><p style="color:var(--muted);font-size:14px">新功能开发的动力源泉</p></div>
+  </div>
+</section>
+
+<!-- 联系主人 -->
+<section id="contact" class="wrap">
+  <div class="section-head"><div class="icon">💌</div><h2>遇到问题？来找我呀</h2><p>机器人的每一句回复，都希望能帮到你。有任何困扰或点子，都欢迎跟我说～</p></div>
+  <div class="owner-card">
+    <div class="owner-info">
+      <div class="avatar">👑</div>
+      <div>
+        <div class="owner-name">主人 · Aether&Lumine</div>
+        <div class="owner-id">QQ：1938649156</div>
+      </div>
+    </div>
+    <p class="owner-desc">机器人抽风、功能失效、玩得不顺心，或者有超棒的改进建议——都欢迎直接加我聊聊。你的每一条反馈，我都会认真看，说不定下个版本就实现啦～</p>
+    <a class="btn btn-primary owner-btn" href="https://qm.qq.com/q/5fxl8YN1kQ" target="_blank" rel="noopener">📩 点击加我为好友</a>
   </div>
 </section>
 
