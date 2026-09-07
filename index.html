@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>为爱发电 · 支持一下 | QQ机器人 · Firefly</title>
+<style>
+  :root{
+    --bg:#0d0f1a;
+    --bg2:#141829;
+    --card:#1a2035;
+    --border:#262e4d;
+    --accent:#7aa2ff;
+    --accent2:#b58cff;
+    --pink:#ff7aa2;
+    --gold:#ffd166;
+    --text:#e6e9f2;
+    --muted:#9aa3bf;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei",-apple-system,system-ui,sans-serif;
+    background:radial-gradient(1200px 800px at 20% -10%,var(--bg2),var(--bg));
+    color:var(--text);
+    min-height:100vh;
+    line-height:1.7;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* 顶部导航 */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+  .logo{font-weight:700;font-size:18px;letter-spacing:.5px}
+  .logo span{color:var(--accent)}
+  nav .links{display:flex;gap:26px;font-size:15px}
+  nav .links a{color:var(--muted)}
+  nav .links a:hover{color:var(--text);text-decoration:none}
+
+  /* Hero */
+  .hero{text-align:center;padding:96px 0 70px}
+  .hero .badge{display:inline-block;background:rgba(122,162,255,.12);border:1px solid rgba(122,162,255,.3);color:var(--accent);padding:6px 16px;border-radius:999px;font-size:13px;margin-bottom:22px}
+  .hero h1{font-size:46px;font-weight:800;line-height:1.3;background:linear-gradient(120deg,#fff,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
+  .hero p{color:var(--muted);font-size:18px;max-width:640px;margin:0 auto 38px}
+  .hero .btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:999px;font-size:16px;font-weight:600;border:none;cursor:pointer;transition:.2s}
+  .btn-primary{background:linear-gradient(120deg,var(--accent),var(--accent2));color:#0d0f1a}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+  .btn:hover{transform:translateY(-2px);opacity:.92;text-decoration:none}
+  .scroll-hint{margin-top:52px;color:var(--muted);font-size:13px;animation:bob 2s infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+  /* 通用区块 */
+  section{padding:70px 0}
+  .section-head{text-align:center;margin-bottom:46px}
+  .section-head .icon{font-size:30px;margin-bottom:10px}
+  .section-head h2{font-size:30px;font-weight:800}
+  .section-head p{color:var(--muted);margin-top:8px;font-size:15px}
+
+  /* 卡片 */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+  .card{background:linear-gradient(180deg,#1b2136,#161b2e);border:1px solid var(--border);border-radius:18px;padding:30px;transition:.25s}
+  .card:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .card .num{font-size:13px;color:var(--accent);font-family:monospace;margin-bottom:6px}
+  .card .cap{font-size:16px;font-weight:700;margin-bottom:6px}
+
+  /* 卡片翻转/翻面容器：QQ加友图 */
+  .card.copy-card .qr-box{border-radius:12px;overflow:hidden;margin:16px 0;cursor:pointer;position:relative;transition:.25s}
+  .card.copy-card .qr-box img{width:100%;display:block}
+  .card.copy-card .qr-box:hover{transform:scale(1.02)}
+  .qr-tip{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;font-size:13px;color:var(--muted)}
+  .qr-tip .mini{margin-left:10px;padding:5px 12px;border:1px solid var(--border);border-radius:999px;cursor:pointer;color:var(--accent)}
+  .mini:hover{border-color:var(--accent)}
+  .chip{display:inline-block;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);font-size:13px;padding:4px 10px;border-radius:999px;margin:3px 3px 0 0}
+  .tag{display:inline-block;font-size:13px;padding:3px 10px;border-radius:999px;margin:2px 3px 0 0}
+  .t-ai{background:rgba(122,162,255,.15);color:#a8c0ff}
+  .t-game{background:rgba(181,140,255,.15);color:#d0bcff}
+  .t-mhy{background:rgba(255,209,102,.12);color:#ffe4a0}
+
+  /* 支持区 */
+  .support{background:linear-gradient(180deg,#131a30,#0f1324);border:1px solid var(--border);border-radius:22px;padding:34px}
+  .support .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px}
+  .pay-box{background:#11162a;border:1px solid var(--border);border-radius:16px;padding:22px;text-align:center}
+  .pay-box h3{font-size:18px;margin-bottom:4px}
+  .pay-box .sub{color:var(--muted);font-size:13px;margin-bottom:16px}
+  .pay-box img{width:210px;height:210px;object-fit:contain;border-radius:12px;background:#fff;padding:8px;margin:0 auto 14px;display:block}
+  .pay-box .thanks{color:var(--accent2);font-size:14px}
+  .btn-copy{background:rgba(122,162,255,.15);border:1px solid var(--accent);color:var(--accent);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin-left:8px}
+  .btn-copy:hover{background:rgba(122,162,255,.28)}
+
+  /* 页脚 */
+  footer{border-top:1px solid rgba(255,255,255,.06);padding:34px 0;text-align:center;color:var(--muted);font-size:13px}
+
+  @media(max-width:720px){
+    .hero h1{font-size:32px}
+    .support .grid{grid-template-columns:1fr}
+    nav .links{display:none}
+  }
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#222a44;border:1px solid var(--accent);padding:12px 22px;border-radius:12px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:99}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="toast" id="toast">已复制 QQ 号 ✓</div>
+
+<nav class="wrap">
+  <div class="logo">🦋 Firefly<span>Bot</span></div>
+  <div class="links">
+    <a href="#robot">机器人</a>
+    <a href="#features">功能</a>
+    <a href="#support">支持我</a>
+    <a href="#about">关于</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero wrap">
+  <div class="badge">为爱发电 · 持续运行中</div>
+  <h1>用一点点支持<br>守护每一次对话</h1>
+  <p>AI 机器人 7×24 在线陪聊、陪你玩。服务器续费 + AI 接口充值，需要你的每一份心意。</p>
+  <div class="btns">
+    <a class="btn btn-primary" href="#support">❤️ 支持一下</a>
+    <a class="btn btn-ghost" href="#robot">🤖 加我为好友</a>
+  </div>
+  <div class="scroll-hint">向下滚动 ⌄</div>
+</header>
+
+<!-- 机器人 -->
+<section id="robot" class="wrap">
+  <div class="section-head"><div class="icon">🤖</div><h2>About Me</h2><p>扫描下面的二维码，或在 QQ 搜索 QQ 号，即可添加我～</p></div>
+  <div class="cards">
+    <div class="card copy-card" style="max-width:340px;margin:0 auto">
+      <div class="num">QQ · 2505643443</div>
+      <div class="cap">Firefly · 流萤</div>
+      <a class="qr-box" id="friendLink" href="#" target="_blank" title="点击添加好友">
+        <img src="assets/qq_friend_qr.png" alt="QQ 好友二维码">
+      </a>
+      <div class="qr-tip">
+        <span>📱 点击图片或扫码加好友</span>
+        <span class="mini" onclick="copyQQ()">复制 QQ</span>
+      </div>
+      <div style="margin-top:14px">
+        <span class="tag t-ai">💬 AI 群聊</span>
+        <span class="tag t-game">🎮 游戏功能</span>
+        <span class="tag t-mhy">✅ 米游社签到</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 功能 -->
+<section id="features" class="wrap">
+  <div class="section-head"><div class="icon">✨</div><h2>能陪你做的，比你想的更多</h2><p>群聊 AI 聊天 + 米游社系列游戏功能，全部免费开放</p></div>
+  <div class="cards">
+    <div class="card"><div class="cap">💬 群聊 AI 娱乐</div><p style="color:var(--muted);font-size:14px">拉进群即可陪聊，脑筋急转弯、成语接龙、今日运势……活跃群气氛的一把好手</p></div>
+    <div class="card"><div class="cap">🗡️ 原神</div><p style="color:var(--muted);font-size:14px">角色 / 武器 / 材料查询、深渊配队建议、抽卡分析等常用功能</p></div>
+    <div class="card"><div class="cap">🚂 崩坏：星穹铁道</div><p style="color:var(--muted);font-size:14px">星铁角色养成、光锥与遗器查询、配队推荐</p></div>
+    <div class="card"><div class="cap">📟 绝区零</div><p style="color:var(--muted);font-size:14px">代理人养成、音擎与驱动盘查询</p></div>
+    <div class="card"><div class="cap">⚡ 崩坏3</div><p style="color:var(--muted);font-size:14px">女武神、圣痕与武器查询</p></div>
+    <div class="card"><div class="cap">📅 米游社自动签到</div><p style="color:var(--muted);font-size:14px">绑定账号后每日自动签到，奖励天天领</p></div>
+  </div>
+</section>
+
+<!-- 支持 -->
+<section id="support" class="wrap">
+  <div class="support">
+    <div style="text-align:center">
+      <div class="section-head" style="margin-bottom:8px"><div class="icon">❤️</div><h2>投喂赞助一下 · 谢谢喵~</h2></div>
+      <p style="color:var(--muted)">你的支持，让机器人能继续陪伴大家。十连双金不歪 ❤</p>
+    </div>
+    <div class="grid">
+      <div class="pay-box">
+        <h3>💚 微信支付</h3>
+        <div class="sub">微信扫一扫 · 备注昵称更暖心</div>
+        <img src="assets/wechat_code.jpg" alt="微信赞赏码">
+        <div class="thanks">♥ 喵呜～心意收到啦</div>
+      </div>
+      <div class="pay-box">
+        <h3>💙 支付宝</h3>
+        <div class="sub">支付宝扫一扫 · 感谢支持</div>
+        <img src="assets/alipay_code.jpg" alt="支付宝收款码">
+        <div class="thanks">♥ 愿你天天开心，我也天天在线</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 关于 -->
+<section id="about" class="wrap">
+  <div class="section-head"><div class="icon">📮</div><h2>为什么需要你的支持</h2><p>机器人的每一句回复背后，都有服务器和 AI 接口的成本</p></div>
+  <div class="cards">
+    <div class="card"><div class="cap">🖥️ 服务器租赁</div><p style="color:var(--muted);font-size:14px">机器人 7×24 在线运行的「房租」</p></div>
+    <div class="card"><div class="cap">🤖 AI 接口</div><p style="color:var(--muted);font-size:14px">每句对话背后的按量计费</p></div>
+    <div class="card"><div class="cap">🌟 持续更新</div><p style="color:var(--muted);font-size:14px">新功能开发的动力源泉</p></div>
+  </div>
+</section>
+
+<footer class="wrap">
+  🦋 FireflyBot · 用爱发电，持续营业中
+</footer>
+
+<script>
+  // ========== 配置区：把下面两项改成你的真实信息 ==========
+  // 1) QQ 加好友链接（点二维码图片直接跳转）。没有可留空，图片将不跳转仅展示。
+  const QQ_ADD_URL = "https://qm.qq.com/q/dV6q9frRRY";  // 点二维码直接加好友
+  const QQ_NUMBER  = "2505643443";
+  // ========================================================
+
+  const link = document.getElementById("friendLink");
+  if (QQ_ADD_URL) {
+    link.href = QQ_ADD_URL;
+    link.setAttribute("rel","noopener");
+  } else {
+    link.href = "#";
+    link.addEventListener("click", e=>e.preventDefault());
+  }
+
+  function copyQQ(){
+    navigator.clipboard.writeText(QQ_NUMBER).then(()=>{
+      const t=document.getElementById("toast"); t.classList.add("show");
+      setTimeout(()=>t.classList.remove("show"),1600);
+    });
+  }
+</script>
+</body>
+</html>
