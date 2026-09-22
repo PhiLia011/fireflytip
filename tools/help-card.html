@@ -109,24 +109,28 @@
   </div>
 
   <h1>指令速查</h1>
-  <p class="sub">把我拉进群，下面这些<em>直接发</em>就能用——不用 @，也不用唤醒词。</p>
+  <p class="sub">把我拉进群，指令前面加 <em>-</em> 就能用；想和我聊天，就说 <em>-AI 想说的话</em>。</p>
 
   <div class="group">
     <div class="g-label"><span>陪聊 · 娱乐</span><i></i></div>
     <div class="row">
-      <div><span class="cmd">点歌 歌名</span></div>
+      <div><span class="cmd warm">-AI 你好呀</span></div>
+      <div class="desc">想聊天就这么开头，之后我能记住前面的上下文</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">-点歌 歌名</span></div>
       <div class="desc">十几个音源随便挑，可以唱歌给你听，也能发卡片</div>
     </div>
     <div class="row">
-      <div><span class="cmd">查歌词</span></div>
+      <div><span class="cmd">-查歌词</span></div>
       <div class="desc">看看现在放的这首，到底在唱什么</div>
     </div>
     <div class="row">
-      <div><span class="cmd">表情管理</span></div>
+      <div><span class="cmd">-表情管理</span></div>
       <div class="desc">表情包图库、添加、云端同步；聊天时我会自己挑合适的发</div>
     </div>
     <div class="row">
-      <div><span class="cmd">今日老婆</span></div>
+      <div><span class="cmd">-今日老婆</span></div>
       <div class="desc">抽个群友当今日份老婆，还能看 <b>关系图</b> 和 <b>rbq 排行</b></div>
     </div>
   </div>
@@ -134,39 +138,39 @@
   <div class="group">
     <div class="g-label"><span>游戏 · 签到</span><i></i></div>
     <div class="row">
-      <div><span class="cmd warm">签到</span></div>
+      <div><span class="cmd warm">-签到</span></div>
       <div class="desc">米游社六款游戏每日自动签到：原神 / 星铁 / 崩坏3 / 绝区零 / 崩坏2 / 未定</div>
     </div>
     <div class="row">
-      <div><span class="cmd warm">米游社 帮助</span></div>
+      <div><span class="cmd warm">-米游社 帮助</span></div>
       <div class="desc">扫码或 Cookie 绑定账号，第一次用先看我发的说明</div>
     </div>
     <div class="row">
-      <div><span class="cmd">盒 @某人</span></div>
+      <div><span class="cmd">-盒 @某人</span></div>
       <div class="desc">生成一张 QQ 资料卡片，群友的来头一目了然</div>
     </div>
     <div class="row">
-      <div><span class="cmd">（直接发链接）</span></div>
-      <div class="desc">B站 / 抖音 / 小红书 / 微博 / 快手 / 油管 / X，视频图集自动解析</div>
+      <div><span class="cmd">-anysearch 关键词</span></div>
+      <div class="desc">实时联网搜索，问它今天发生的事它也能答</div>
     </div>
     <div class="row">
-      <div><span class="cmd">anysearch 关键词</span></div>
-      <div class="desc">实时联网搜索，问它今天发生的事它也能答</div>
+      <div><span class="cmd">（直接发链接）</span></div>
+      <div class="desc">B站 / 抖音 / 小红书 / 微博 / 快手 / 油管 / X，<b>免前缀</b>自动解析</div>
     </div>
   </div>
 
   <div class="group">
     <div class="g-label"><span>群聊 · 统计</span><i></i></div>
     <div class="row">
-      <div><span class="cmd">群分析</span></div>
+      <div><span class="cmd">-群分析</span></div>
       <div class="desc">给整个群出一份分析报告，还有抽象的「群漫画」</div>
     </div>
     <div class="row">
-      <div><span class="cmd">发言榜</span></div>
+      <div><span class="cmd">-发言榜</span></div>
       <div class="desc">水群排行榜：今日 / 本周 / 本月 / 今年都能查</div>
     </div>
     <div class="row">
-      <div><span class="cmd">wordcloud</span></div>
+      <div><span class="cmd">-wordcloud</span></div>
       <div class="desc">把群里的关键词变成一张词云图</div>
     </div>
   </div>
@@ -174,15 +178,15 @@
   <div class="group">
     <div class="g-label"><span>群管 · 维护</span><i></i></div>
     <div class="row">
-      <div><span class="cmd">入群审核</span></div>
-      <div class="desc">有人申请加群，群里回复「同意 / 拒绝 / 拉黑」就行</div>
+      <div><span class="cmd">（自动运行）</span></div>
+      <div class="desc">广告、骂人、违规链接自动撤回；新人进群自动欢迎</div>
     </div>
     <div class="row">
-      <div><span class="cmd">智能审核</span></div>
-      <div class="desc">正则初筛 + 上下文 + AI 三重判断，骂人广告自动撤回</div>
+      <div><span class="cmd">引用回复「同意」</span></div>
+      <div class="desc">有人申请加群时，管理员引用通知回复即可放行或拒绝</div>
     </div>
     <div class="row">
-      <div><span class="cmd">延迟检测</span></div>
+      <div><span class="cmd">-延迟检测</span></div>
       <div class="desc">网络、插件、模型一键自检，卡了就知道卡在哪</div>
     </div>
   </div>
@@ -190,8 +194,9 @@
   <div class="tips">
     <h2>温馨提示</h2>
     <ul>
+      <li>指令和聊天都要带前缀：指令用 <b>-</b>，聊天用 <b>-AI</b>；私聊也一样</li>
       <li>全部功能<b>免费开放</b>，没有隐藏收费，也不会有广告</li>
-      <li>「签到」第一次用要先绑定账号，跟着 <b>米游社 帮助</b> 走就行</li>
+      <li>「签到」第一次用要先绑定账号，跟着 <b>-米游社 帮助</b> 走就行</li>
       <li>群管类指令需要把我设成<b>管理员</b>才会生效</li>
       <li>刷屏和频繁调用会被限流，温柔一点，我能陪大家更久</li>
       <li>用着有问题、想要新功能，直接私聊我主人就好</li>

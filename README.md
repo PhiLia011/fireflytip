@@ -29,6 +29,9 @@ python tools/build-help.py
 
 脚本会用本机的 Edge / Chrome 无头模式渲染，再自动裁掉底部空白并压缩成 256 色 PNG。
 
+> 图里的前缀（指令用 `-`、聊天用 `-AI`）对应 AstrBot 配置里的
+> `wake_prefix` 和 `provider_settings.wake_prefix`。改了配置记得同步这张图和页面文案。
+
 ## 🖼️ 放入图片
 
 把三张二维码图片，按上面的**文件名**放到 `assets/` 目录下即可：
