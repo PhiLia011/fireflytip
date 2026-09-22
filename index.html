@@ -262,6 +262,82 @@
   a.card{border-color:var(--line)}
   a.card:hover{color:var(--text)}
 
+  /* 卡片里的小指令标签 */
+  .card .k{
+    display:inline-block;margin-top:15px;padding:3px 10px;border-radius:8px;
+    font-family:var(--mono);font-size:11.5px;color:#bfcbe9;
+    background:rgba(255,255,255,.05);border:1px solid var(--line);
+  }
+
+  /* 功能分组标题 */
+  .fgroup{margin-bottom:34px}
+  .fgroup:last-child{margin-bottom:0}
+  .fgroup-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .fgroup-head span{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;color:var(--mute);white-space:nowrap}
+  .fgroup-head i{flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),transparent)}
+
+  /* ============ 指令速查 ============ */
+  .guide{
+    position:relative;overflow:hidden;
+    display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+    gap:clamp(26px,4.5vw,58px);align-items:center;
+    padding:clamp(24px,3.6vw,42px);
+    border:1px solid var(--line);border-radius:26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+    box-shadow:0 44px 90px -66px rgba(0,0,0,1);
+  }
+  .guide::after{
+    content:"";position:absolute;left:-150px;top:-170px;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,202,122,.09),transparent 68%);pointer-events:none;
+  }
+  .g-media{position:relative;z-index:1;width:100%;max-width:440px;margin:0 auto}
+  .g-media a{
+    position:relative;display:block;overflow:hidden;
+    border-radius:22px;border:1px solid var(--line-2);
+    box-shadow:0 40px 80px -52px rgba(0,0,0,1);
+    transition:transform .5s var(--ease),border-color .4s ease;
+  }
+  .g-media a:hover{transform:translateY(-4px);border-color:rgba(138,176,255,.45)}
+  .g-media img{display:block;width:100%;height:auto}
+  .g-media .zoom{
+    position:absolute;left:50%;bottom:14px;white-space:nowrap;
+    padding:7px 15px;border-radius:999px;font-size:12.5px;color:var(--text);
+    background:rgba(12,15,26,.86);border:1px solid var(--line-2);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    opacity:0;transform:translate(-50%,10px);
+    transition:opacity .35s ease,transform .45s var(--ease);
+  }
+  .g-media a:hover .zoom{opacity:1;transform:translate(-50%,0)}
+  /* 触屏设备没有 hover，直接常驻提示 */
+  @media(hover:none){.g-media .zoom{opacity:1;transform:translate(-50%,0)}}
+  .g-cap{margin-top:13px;text-align:center;font-size:12.5px;color:var(--mute)}
+
+  .g-side{position:relative;z-index:1;display:grid;gap:clamp(20px,2.6vw,30px)}
+  .g-block h3{display:flex;align-items:center;gap:9px;margin:0 0 13px;font-size:14.5px;font-weight:700;letter-spacing:.01em}
+  .g-block h3::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  .g-block.warm h3::before{background:var(--spark);box-shadow:0 0 10px var(--spark)}
+
+  .steps{display:grid;gap:11px;margin:0;padding:0;list-style:none}
+  .steps li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.6;color:var(--dim)}
+  .steps .n{
+    flex:0 0 auto;display:grid;place-items:center;width:23px;height:23px;margin-top:1px;
+    border-radius:8px;font-family:var(--mono);font-size:11.5px;color:var(--accent);
+    background:rgba(138,176,255,.1);border:1px solid rgba(138,176,255,.3);
+  }
+  .steps b{color:#dbe3f5;font-weight:600}
+
+  .tips-list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+  .tips-list li{position:relative;padding-left:18px;font-size:14.5px;line-height:1.7;color:var(--dim)}
+  .tips-list li::before{
+    content:"";position:absolute;left:3px;top:.72em;width:5px;height:5px;border-radius:50%;
+    background:var(--spark);box-shadow:0 0 9px rgba(255,202,122,.85);
+  }
+  .tips-list b{color:#dbe3f5;font-weight:600}
+
+  .g-more{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;color:var(--accent)}
+  .g-more i{font-style:normal;transition:transform .4s var(--ease)}
+  .g-more:hover i{transform:translateY(3px)}
+
   /* ============ 机器人名片 ============ */
   .profile{
     position:relative;overflow:hidden;
@@ -437,6 +513,9 @@
     .p-list li{max-width:320px;text-align:left}
     .p-actions{justify-content:center}
     .phone{width:min(300px,76vw)}
+    .guide{grid-template-columns:1fr;gap:32px}
+    .g-media{width:min(358px,82vw);margin:0 auto}
+    .g-side{gap:24px}
   }
   @media(max-width:640px){
     .wrap{padding:0 18px}
@@ -467,9 +546,9 @@
     <a class="logo" href="#top"><span class="mark">🦋</span>Firefly<b>Bot</b></a>
     <div class="nav-links">
       <a href="#robot">机器人</a>
+      <a href="#guide">指令</a>
       <a href="#features">功能</a>
       <a href="#support">支持我</a>
-      <a href="#about">成本</a>
       <a href="#contact">联系</a>
     </div>
     <a class="btn btn-primary btn-sm" href="#support">支持一下</a>
@@ -546,50 +625,148 @@
   </div>
 </section>
 
+<!-- 指令速查 -->
+<section id="guide">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">GUIDE</span>
+      <h2>一分钟上手，常用指令都在这张图里</h2>
+      <p>存下来发到群里也行，照着发就能用</p>
+    </div>
+
+    <div class="guide" data-reveal>
+      <div class="g-media">
+        <a href="assets/help.png" target="_blank" rel="noopener" title="点开查看原图">
+          <img src="assets/help.png" width="880" height="1403" loading="lazy" decoding="async"
+               alt="FireflyBot 指令速查图：点歌、米游社签到、链接解析、群分析与群管等常用指令，以及温馨提示">
+          <span class="zoom">点开看大图 ↗</span>
+        </a>
+        <div class="g-cap">长按或右键就能保存</div>
+      </div>
+
+      <div class="g-side">
+        <div class="g-block">
+          <h3>三步上手</h3>
+          <ul class="steps">
+            <li><span class="n">1</span><span>扫上面的二维码加我好友，把我拉进你的群。</span></li>
+            <li><span class="n">2</span><span>在群里直接发指令，<b>不用 @ 我，也不用唤醒词</b>。</span></li>
+            <li><span class="n">3</span><span>想签到就先发一次 <b>米游社 帮助</b>，跟着说明绑定账号。</span></li>
+          </ul>
+        </div>
+
+        <div class="g-block warm">
+          <h3>温馨提示</h3>
+          <ul class="tips-list">
+            <li>全部功能<b>免费开放</b>，没有隐藏收费，也不会塞广告。</li>
+            <li>群管类指令需要把我设成<b>管理员</b>才会生效。</li>
+            <li>刷屏和频繁调用会被限流，<b>温柔一点</b>，我能陪大家更久。</li>
+            <li>用着有问题、想要新功能，直接找我主人就好。</li>
+          </ul>
+        </div>
+
+        <a class="g-more" href="#features">完整功能往下翻 <i>↓</i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- 功能 -->
 <section id="features">
   <div class="wrap">
     <div class="section-head" data-reveal>
       <span class="eyebrow">FEATURES</span>
-      <h2>能陪你做的，比你想的更多</h2>
-      <p>群聊 AI 陪聊 + 米游社全套游戏工具，全部免费开放</p>
+      <h2>群里能玩到的，都在这儿</h2>
+      <p>全部免费开放，拉进群就能用，不需要额外配置</p>
     </div>
 
-    <div class="cards" data-stagger>
-      <div class="card" data-reveal>
-        <div class="ico">💬</div>
-        <h3>群聊 AI 陪聊</h3>
-        <p>拉进群就能聊：脑筋急转弯、成语接龙、今日运势，活跃气氛的一把好手。</p>
+    <div class="fgroup" data-stagger>
+      <div class="fgroup-head" data-reveal><span>01 陪聊 · 娱乐</span><i></i></div>
+      <div class="cards">
+        <div class="card" data-reveal>
+          <div class="ico">💬</div>
+          <h3>群聊 AI 陪聊</h3>
+          <p>拉进群就能聊，人设稳定不会聊着聊着跑偏；带提示词注入防护，几句话套不走设定。</p>
+          <span class="k">直接说话就行</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">🎵</div>
+          <h3>点歌</h3>
+          <p>十几个音源随便挑，可以发卡片，也能直接唱出来；想听什么发歌名就行。</p>
+          <span class="k">点歌 歌名</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">🖼️</div>
+          <h3>表情包</h3>
+          <p>自带图库，聊天时会自己挑合适的发；支持语义检索、云端同步，也能自己往里加。</p>
+          <span class="k">表情管理</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">👰</div>
+          <h3>今日老婆</h3>
+          <p>抽个群友当今日份老婆，还能看关系图、rbq 排行，以及强娶和求婚。</p>
+          <span class="k">今日老婆</span>
+        </div>
       </div>
-      <div class="card" data-reveal>
-        <div class="ico">📅</div>
-        <h3>米游社自动签到</h3>
-        <p>绑定账号后每天自动签到，奖励不漏领，再也不用记着上线。</p>
+    </div>
+
+    <div class="fgroup" data-stagger>
+      <div class="fgroup-head" data-reveal><span>02 游戏 · 工具</span><i></i></div>
+      <div class="cards">
+        <div class="card" data-reveal>
+          <div class="ico">✅</div>
+          <h3>米游社自动签到</h3>
+          <p>原神 / 星铁 / 崩坏3 / 绝区零 / 崩坏2 / 未定，绑定一次，以后每天自动签，奖励不漏领。</p>
+          <span class="k">签到 · 米游社 帮助</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">🔗</div>
+          <h3>万能解析</h3>
+          <p>B站 / 抖音 / 小红书 / 微博 / 快手 / 油管 / X，链接发出来就自动解析成能直接看的样子。</p>
+          <span class="k">发链接即可</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">🔍</div>
+          <h3>实时联网搜索</h3>
+          <p>不只靠记忆回答，问它今天发生的事也能查；还支持批量搜索和提取网页正文。</p>
+          <span class="k">anysearch 关键词</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">🃏</div>
+          <h3>QQ 资料卡片</h3>
+          <p>一句话生成一张资料卡，群友的来头、群身份、地区一目了然。</p>
+          <span class="k">盒 @某人</span>
+        </div>
       </div>
-      <a class="card" href="https://ys.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
-        <div class="ico">🗡️</div>
-        <h3>原神</h3>
-        <p>角色 / 武器 / 材料查询、深渊配队建议、抽卡分析等常用功能。</p>
-        <span class="go">打开官网 <i>→</i></span>
-      </a>
-      <a class="card" href="https://sr.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
-        <div class="ico">🚂</div>
-        <h3>崩坏：星穹铁道</h3>
-        <p>角色养成、光锥与遗器查询、配队推荐，随手就能查。</p>
-        <span class="go">打开官网 <i>→</i></span>
-      </a>
-      <a class="card" href="https://zzz.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
-        <div class="ico">📟</div>
-        <h3>绝区零</h3>
-        <p>代理人养成、音擎与驱动盘查询。</p>
-        <span class="go">打开官网 <i>→</i></span>
-      </a>
-      <a class="card" href="https://bh3.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
-        <div class="ico">⚡</div>
-        <h3>崩坏 3</h3>
-        <p>女武神、圣痕与武器查询。</p>
-        <span class="go">打开官网 <i>→</i></span>
-      </a>
+    </div>
+
+    <div class="fgroup" data-stagger>
+      <div class="fgroup-head" data-reveal><span>03 群管 · 维护</span><i></i></div>
+      <div class="cards">
+        <div class="card" data-reveal>
+          <div class="ico">🛡️</div>
+          <h3>智能审核</h3>
+          <p>正则初筛 + 上下文 + AI 三重判断，骂人、广告、违规链接自动撤回；群里说话还是照旧。</p>
+          <span class="k">自动运行</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">🚪</div>
+          <h3>入群审核</h3>
+          <p>有人申请加群，群里会收到一张申请人资料卡，回复「同意 / 拒绝 / 拉黑」就行。</p>
+          <span class="k">引用回复即可</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">📊</div>
+          <h3>群分析 · 水群榜</h3>
+          <p>给整个群出一份分析报告和群漫画，还有词云与发言榜，今日 / 本周 / 本月都能查。</p>
+          <span class="k">群分析 · 发言榜</span>
+        </div>
+        <div class="card" data-reveal>
+          <div class="ico">⏱️</div>
+          <h3>自检与监测</h3>
+          <p>网络、插件、模型链路一键体检，卡了就知道卡在哪；还支持 B 站开播监测与群管指令集。</p>
+          <span class="k">延迟检测</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
