@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>FireflyBot 指令速查</title>
+<style>
+  /* 帮助图源文件：改完这里跑 tools/build-help.py 就能重新生成 assets/help.png */
+  :root{
+    --ink:#0a0c14;
+    --panel:rgba(255,255,255,.045);
+    --panel-2:rgba(255,255,255,.015);
+    --line:rgba(255,255,255,.075);
+    --line-2:rgba(255,255,255,.14);
+    --text:#e9ecf6;
+    --dim:#a3abc4;
+    --mute:#6f7893;
+    --accent:#8ab0ff;
+    --spark:#ffca7a;
+    --sans:"PingFang SC","HarmonyOS Sans SC","Noto Sans SC","Microsoft YaHei UI","Microsoft YaHei",system-ui,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Mono",Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    width:880px;
+    font-family:var(--sans);
+    color:var(--text);
+    background-color:var(--ink);
+    background-image:
+      radial-gradient(700px 420px at 24% -6%,rgba(138,176,255,.16),transparent 68%),
+      radial-gradient(520px 380px at 92% 4%,rgba(255,202,122,.07),transparent 66%),
+      radial-gradient(600px 520px at 4% 88%,rgba(138,176,255,.06),transparent 70%);
+    -webkit-font-smoothing:antialiased;
+  }
+  .card{
+    margin:36px;
+    padding:38px 40px 34px;
+    border:1px solid var(--line);
+    border-radius:28px;
+    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  }
+
+  /* ---- 头部 ---- */
+  .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+  .brand{display:flex;align-items:center;gap:11px;font-size:17px;font-weight:700;letter-spacing:.01em}
+  .mark{
+    width:29px;height:29px;border-radius:10px;
+    background:linear-gradient(150deg,rgba(138,176,255,.45),rgba(138,176,255,.08));
+    border:1px solid rgba(138,176,255,.4);
+    box-shadow:0 0 20px -6px rgba(138,176,255,.9);
+  }
+  .brand b{color:var(--accent);font-weight:700}
+  .chip{
+    padding:6px 13px;border:1px solid var(--line);border-radius:999px;
+    font-family:var(--mono);font-size:12.5px;color:#93a0bb;
+  }
+
+  h1{font-size:33px;font-weight:700;letter-spacing:-.022em;line-height:1.2;margin-bottom:10px;
+    background:linear-gradient(180deg,#fff 30%,#a6b4d6);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .sub{font-size:14.5px;color:var(--dim);line-height:1.7;margin-bottom:32px}
+  .sub em{font-style:normal;color:var(--accent)}
+
+  /* ---- 分组 ---- */
+  .group{margin-bottom:26px}
+  .g-label{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+  .g-label span{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:#93a0bb;white-space:nowrap}
+  .g-label i{flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),transparent)}
+
+  .row{display:grid;grid-template-columns:246px 1fr;gap:16px;align-items:start;padding:7px 0}
+  .cmd{
+    display:inline-block;padding:5px 12px;border-radius:9px;
+    background:rgba(138,176,255,.1);border:1px solid rgba(138,176,255,.28);
+    font-family:var(--mono);font-size:13.5px;color:#cfe0ff;white-space:nowrap;
+  }
+  .cmd.warm{background:rgba(255,202,122,.1);border-color:rgba(255,202,122,.3);color:#ffe0ac}
+  .desc{font-size:14px;line-height:1.55;color:var(--dim);padding-top:3px}
+  .desc b{color:#dbe3f5;font-weight:600}
+
+  /* ---- 温馨提示 ---- */
+  .tips{
+    margin-top:32px;padding:22px 24px;border:1px solid var(--line);border-radius:18px;
+    background:rgba(255,255,255,.025);
+  }
+  .tips h2{
+    display:flex;align-items:center;gap:9px;margin-bottom:13px;
+    font-size:14px;font-weight:700;letter-spacing:.02em;color:#dbe3f5;
+  }
+  .tips h2::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--spark);box-shadow:0 0 10px var(--spark)}
+  .tips ul{list-style:none;display:grid;gap:9px}
+  .tips li{position:relative;padding-left:17px;font-size:13.5px;line-height:1.6;color:var(--dim)}
+  .tips li::before{content:"";position:absolute;left:2px;top:.62em;width:5px;height:5px;border-radius:50%;background:rgba(138,176,255,.85)}
+  .tips li b{color:#dbe3f5;font-weight:600}
+
+  .foot{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-top:24px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:12px;color:#93a0bb;
+  }
+  .foot b{color:var(--accent);font-weight:600}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="head">
+    <div class="brand"><span class="mark"></span>Firefly<b>Bot</b></div>
+    <div class="chip">QQ 2505643443</div>
+  </div>
+
+  <h1>指令速查</h1>
+  <p class="sub">把我拉进群，下面这些<em>直接发</em>就能用——不用 @，也不用唤醒词。</p>
+
+  <div class="group">
+    <div class="g-label"><span>陪聊 · 娱乐</span><i></i></div>
+    <div class="row">
+      <div><span class="cmd">点歌 歌名</span></div>
+      <div class="desc">十几个音源随便挑，可以唱歌给你听，也能发卡片</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">查歌词</span></div>
+      <div class="desc">看看现在放的这首，到底在唱什么</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">表情管理</span></div>
+      <div class="desc">表情包图库、添加、云端同步；聊天时我会自己挑合适的发</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">今日老婆</span></div>
+      <div class="desc">抽个群友当今日份老婆，还能看 <b>关系图</b> 和 <b>rbq 排行</b></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="g-label"><span>游戏 · 签到</span><i></i></div>
+    <div class="row">
+      <div><span class="cmd warm">签到</span></div>
+      <div class="desc">米游社六款游戏每日自动签到：原神 / 星铁 / 崩坏3 / 绝区零 / 崩坏2 / 未定</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd warm">米游社 帮助</span></div>
+      <div class="desc">扫码或 Cookie 绑定账号，第一次用先看我发的说明</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">盒 @某人</span></div>
+      <div class="desc">生成一张 QQ 资料卡片，群友的来头一目了然</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">（直接发链接）</span></div>
+      <div class="desc">B站 / 抖音 / 小红书 / 微博 / 快手 / 油管 / X，视频图集自动解析</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">anysearch 关键词</span></div>
+      <div class="desc">实时联网搜索，问它今天发生的事它也能答</div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="g-label"><span>群聊 · 统计</span><i></i></div>
+    <div class="row">
+      <div><span class="cmd">群分析</span></div>
+      <div class="desc">给整个群出一份分析报告，还有抽象的「群漫画」</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">发言榜</span></div>
+      <div class="desc">水群排行榜：今日 / 本周 / 本月 / 今年都能查</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">wordcloud</span></div>
+      <div class="desc">把群里的关键词变成一张词云图</div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="g-label"><span>群管 · 维护</span><i></i></div>
+    <div class="row">
+      <div><span class="cmd">入群审核</span></div>
+      <div class="desc">有人申请加群，群里回复「同意 / 拒绝 / 拉黑」就行</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">智能审核</span></div>
+      <div class="desc">正则初筛 + 上下文 + AI 三重判断，骂人广告自动撤回</div>
+    </div>
+    <div class="row">
+      <div><span class="cmd">延迟检测</span></div>
+      <div class="desc">网络、插件、模型一键自检，卡了就知道卡在哪</div>
+    </div>
+  </div>
+
+  <div class="tips">
+    <h2>温馨提示</h2>
+    <ul>
+      <li>全部功能<b>免费开放</b>，没有隐藏收费，也不会有广告</li>
+      <li>「签到」第一次用要先绑定账号，跟着 <b>米游社 帮助</b> 走就行</li>
+      <li>群管类指令需要把我设成<b>管理员</b>才会生效</li>
+      <li>刷屏和频繁调用会被限流，温柔一点，我能陪大家更久</li>
+      <li>用着有问题、想要新功能，直接私聊我主人就好</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    <div>遇到问题 → QQ <b>1938649156</b></div>
+    <div>philia011.github.io/fireflytip</div>
+  </div>
+
+</div>
+</body>
+</html>

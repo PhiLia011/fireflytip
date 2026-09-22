@@ -5,13 +5,29 @@
 ## 📁 文件结构
 
 ```
-sponsor_site/
+fireflytip/
 ├── index.html                 # 主页面（已含全部逻辑，可直接用静态托管部署）
-└── assets/
-    ├── qq_friend_qr.jpg       # ← 图1：QQ 好友二维码（必填）
-    ├── wechat_code.jpg        # ← 图2：微信赞赏码（必填）
-    └── alipay_code.jpg        # ← 图3：支付宝收款码（必填）
+├── assets/
+│   ├── qq_friend_qr.png       # ← 图1：QQ 好友二维码（必填）
+│   ├── wechat_code.jpg        # ← 图2：微信赞赏码（必填）
+│   ├── alipay_code.jpg        # ← 图3：支付宝收款码（必填）
+│   └── help.png               # ← 指令速查图（由 tools/ 生成，可替换）
+└── tools/
+    ├── help-card.html         # 指令速查图的源文件（改这里的文案/配色）
+    └── build-help.py          # 渲染成 assets/help.png（需要 Edge/Chrome + Pillow）
 ```
+
+## 🖼️ 指令速查图（帮助图）
+
+页面里「一分钟上手」那一块展示的图片就是 `assets/help.png`，可以直接存下来发到群里当帮助图。
+
+改完 `tools/help-card.html` 后重新生成：
+
+```bash
+python tools/build-help.py
+```
+
+脚本会用本机的 Edge / Chrome 无头模式渲染，再自动裁掉底部空白并压缩成 256 色 PNG。
 
 ## 🖼️ 放入图片
 
