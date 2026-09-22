@@ -2,253 +2,793 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>为爱发电 · 支持一下 | QQ机器人 · Firefly</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>为爱发电 · 支持一下 | QQ 机器人 Firefly</title>
+<meta name="description" content="Firefly 是一只 7×24 在线的 QQ 机器人：群聊陪聊、米游社自动签到、游戏工具查询，全部免费。服务器和 AI 接口都有成本，欢迎投喂。">
+<meta name="theme-color" content="#0a0c14">
+<meta property="og:title" content="为爱发电 · 支持一下 | QQ 机器人 Firefly">
+<meta property="og:description" content="服务器续费 + AI 接口充值，你的每一份心意都花在这里。">
+<meta property="og:type" content="website">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   :root{
-    --bg:#0d0f1a;
-    --bg2:#141829;
-    --card:#1a2035;
-    --border:#262e4d;
-    --accent:#7aa2ff;
-    --accent2:#b58cff;
-    --pink:#ff7aa2;
-    --gold:#ffd166;
-    --text:#e6e9f2;
-    --muted:#9aa3bf;
+    /* 底色：偏中性的深夜蓝黑，避免纯蓝底的廉价感 */
+    --ink:#0a0c14;
+    --surface:rgba(255,255,255,.045);
+    --surface-2:rgba(255,255,255,.015);
+    --line:rgba(255,255,255,.075);
+    --line-2:rgba(255,255,255,.14);
+
+    --text:#e9ecf6;
+    --dim:#a3abc4;
+    --mute:#6f7893;
+
+    /* 主色：萤火蓝；点缀：萤火暖光 */
+    --accent:#8ab0ff;
+    --accent-deep:#6a92f0;
+    --spark:#ffca7a;
+
+    --ease:cubic-bezier(.16,1,.3,1);
+    --wrap:1120px;
+    --sans:"PingFang SC","HarmonyOS Sans SC","Noto Sans SC","Microsoft YaHei UI","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
   }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+
+  *,*::before,*::after{box-sizing:border-box}
+
+  html{
+    background:var(--ink);
+    scroll-behavior:smooth;
+    scroll-padding-top:92px;
+    -webkit-text-size-adjust:100%;
+  }
+
   body{
-    font-family:"PingFang SC","Microsoft YaHei",-apple-system,system-ui,sans-serif;
-    background:radial-gradient(1200px 800px at 20% -10%,var(--bg2),var(--bg));
-    color:var(--text);
+    margin:0;
     min-height:100vh;
-    line-height:1.7;
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.75;
+    color:var(--text);
+    /* 底色交给 html，body 保持透明，负层级的光晕才不会被盖住 */
+    background:transparent;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
   }
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* 背景：三层极淡的光晕 + 一层噪点，避免大色块的塑料感 */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(880px 520px at 50% -14%,rgba(138,176,255,.17),transparent 68%),
+      radial-gradient(620px 480px at 88% 6%,rgba(255,202,122,.07),transparent 66%),
+      radial-gradient(760px 680px at 4% 46%,rgba(138,176,255,.055),transparent 70%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection{background:rgba(138,176,255,.3)}
+
   a{color:var(--accent);text-decoration:none}
-  a:hover{text-decoration:underline}
+  a:hover{text-decoration:none}
+  :focus-visible{outline:2px solid rgba(138,176,255,.7);outline-offset:3px;border-radius:6px}
 
-  /* 顶部导航 */
-  nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-  .logo{font-weight:700;font-size:18px;letter-spacing:.5px}
-  .logo span{color:var(--accent)}
-  nav .links{display:flex;gap:26px;font-size:15px}
-  nav .links a{color:var(--muted)}
-  nav .links a:hover{color:var(--text);text-decoration:none}
+  .wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 24px}
 
-  /* Hero */
-  .hero{text-align:center;padding:96px 0 70px}
-  .hero .badge{display:inline-block;background:rgba(122,162,255,.12);border:1px solid rgba(122,162,255,.3);color:var(--accent);padding:6px 16px;border-radius:999px;font-size:13px;margin-bottom:22px}
-  .hero h1{font-size:46px;font-weight:800;line-height:1.3;background:linear-gradient(120deg,#fff,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
-  .hero p{color:var(--muted);font-size:18px;max-width:640px;margin:0 auto 38px}
-  .hero .btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 30px;border-radius:999px;font-size:16px;font-weight:600;border:none;cursor:pointer;transition:.2s}
-  .btn-primary{background:linear-gradient(120deg,var(--accent),var(--accent2));color:#0d0f1a}
-  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
-  .btn:hover{transform:translateY(-2px);opacity:.92;text-decoration:none}
-  .scroll-hint{margin-top:52px;color:var(--muted);font-size:13px;animation:bob 2s infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
-
-  /* 通用区块 */
-  section{padding:70px 0}
-  .section-head{text-align:center;margin-bottom:46px}
-  .section-head .icon{font-size:30px;margin-bottom:10px}
-  .section-head h2{font-size:30px;font-weight:800}
-  .section-head p{color:var(--muted);margin-top:8px;font-size:15px}
-
-  /* 卡片 */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
-  .card{background:linear-gradient(180deg,#1b2136,#161b2e);border:1px solid var(--border);border-radius:18px;padding:30px;transition:.25s}
-  .card:hover{transform:translateY(-4px);border-color:var(--accent)}
-  /* 可点击跳转的游戏卡片 */
-  a.card-link{display:block;text-decoration:none;color:var(--text)}
-  a.card-link:hover{text-decoration:none;border-color:var(--accent)}
-  .card-link .go{display:inline-block;margin-top:12px;font-size:13px;color:var(--accent)}
-  a.card-link:hover .go{color:var(--accent2)}
-  .card .num{font-size:13px;color:var(--accent);font-family:monospace;margin-bottom:6px}
-  .card .cap{font-size:16px;font-weight:700;margin-bottom:6px}
-
-  /* 卡片翻转/翻面容器：QQ加友图 */
-  .card.copy-card .qr-box{border-radius:12px;overflow:hidden;margin:16px 0;cursor:pointer;position:relative;transition:.25s}
-  .card.copy-card .qr-box img{width:100%;display:block}
-  .card.copy-card .qr-box:hover{transform:scale(1.02)}
-  .qr-tip{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;font-size:13px;color:var(--muted)}
-  .qr-tip .mini{margin-left:10px;padding:5px 12px;border:1px solid var(--border);border-radius:999px;cursor:pointer;color:var(--accent)}
-  .mini:hover{border-color:var(--accent)}
-  .chip{display:inline-block;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);font-size:13px;padding:4px 10px;border-radius:999px;margin:3px 3px 0 0}
-  .tag{display:inline-block;font-size:13px;padding:3px 10px;border-radius:999px;margin:2px 3px 0 0}
-  .t-ai{background:rgba(122,162,255,.15);color:#a8c0ff}
-  .t-game{background:rgba(181,140,255,.15);color:#d0bcff}
-  .t-mhy{background:rgba(255,209,102,.12);color:#ffe4a0}
-
-  /* 支持区 */
-  .support{background:linear-gradient(180deg,#131a30,#0f1324);border:1px solid var(--border);border-radius:22px;padding:34px}
-  .support .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px}
-  .pay-box{background:#11162a;border:1px solid var(--border);border-radius:16px;padding:22px;text-align:center}
-  .pay-box h3{font-size:18px;margin-bottom:4px}
-  .pay-box .sub{color:var(--muted);font-size:13px;margin-bottom:16px}
-  .pay-box img{width:210px;height:210px;object-fit:contain;border-radius:12px;background:#fff;padding:8px;margin:0 auto 14px;display:block}
-  .pay-box .thanks{color:var(--accent2);font-size:14px}
-  .btn-copy{background:rgba(122,162,255,.15);border:1px solid var(--accent);color:var(--accent);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin-left:8px}
-  .btn-copy:hover{background:rgba(122,162,255,.28)}
-
-  /* 页脚 */
-  footer{border-top:1px solid rgba(255,255,255,.06);padding:34px 0;text-align:center;color:var(--muted);font-size:13px}
-  /* 联系主人卡片 */
-  .owner-card{max-width:560px;margin:0 auto;background:linear-gradient(180deg,#1b2136,#161b2e);border:1px solid var(--border);border-radius:20px;padding:34px;text-align:center}
-  .owner-info{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:14px}
-  .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(120deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:26px}
-  .owner-name{font-size:18px;font-weight:700}
-  .owner-id{color:var(--muted);font-size:14px;font-family:monospace}
-  .owner-desc{color:var(--muted);font-size:14px;line-height:1.8;max-width:420px;margin:0 auto 22px}
-  .owner-btn{margin-top:4px}
-
-  @media(max-width:720px){
-    .hero h1{font-size:32px}
-    .support .grid{grid-template-columns:1fr}
-    nav .links{display:none}
+  /* ============ 顶部阅读进度 ============ */
+  .progress{
+    position:fixed;top:0;left:0;z-index:70;width:100%;height:2px;
+    transform:scaleX(0);transform-origin:0 50%;pointer-events:none;
+    background:linear-gradient(90deg,var(--accent-deep),var(--accent) 60%,#cfdcff);
+    box-shadow:0 0 12px rgba(138,176,255,.55);
   }
-  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#222a44;border:1px solid var(--accent);padding:12px 22px;border-radius:12px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:99}
-  .toast.show{opacity:1}
+
+  /* ============ 导航 ============ */
+  .nav{
+    position:sticky;top:0;z-index:60;
+    background:rgba(10,12,20,.6);
+    border-bottom:1px solid transparent;
+    backdrop-filter:blur(16px) saturate(160%);
+    -webkit-backdrop-filter:blur(16px) saturate(160%);
+    transition:background .35s ease,border-color .35s ease;
+  }
+  .nav.scrolled{background:rgba(10,12,20,.86);border-bottom-color:var(--line)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:15px;padding-bottom:15px}
+
+  .logo{display:flex;align-items:center;gap:10px;color:var(--text);font-size:16.5px;font-weight:700;letter-spacing:.01em}
+  .logo .mark{
+    display:grid;place-items:center;width:27px;height:27px;border-radius:9px;font-size:14px;
+    background:linear-gradient(150deg,rgba(138,176,255,.3),rgba(138,176,255,.07));
+    border:1px solid rgba(138,176,255,.32);
+    box-shadow:0 0 18px -6px rgba(138,176,255,.8);
+  }
+  .logo b{color:var(--accent);font-weight:700}
+
+  .nav-links{display:flex;align-items:center;gap:2px}
+  .nav-links a{
+    position:relative;padding:8px 14px;border-radius:999px;
+    font-size:14px;color:var(--dim);
+    transition:color .25s ease,background-color .25s ease;
+  }
+  .nav-links a:hover{color:var(--text);background:rgba(255,255,255,.055)}
+  .nav-links a.active{color:var(--text)}
+  .nav-links a::after{
+    content:"";position:absolute;left:50%;bottom:2px;width:4px;height:4px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 8px rgba(138,176,255,.9);
+    transform:translateX(-50%) scale(0);transition:transform .35s var(--ease);
+  }
+  .nav-links a.active::after{transform:translateX(-50%) scale(1)}
+
+  /* ============ 按钮 ============ */
+  .btn{
+    position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 28px;border:1px solid transparent;border-radius:999px;
+    font-family:inherit;font-size:15.5px;font-weight:600;line-height:1;color:var(--text);
+    text-decoration:none;cursor:pointer;overflow:hidden;
+    transition:transform .3s var(--ease),box-shadow .35s var(--ease),background-color .25s ease,border-color .25s ease;
+  }
+  .btn-primary{
+    color:#0b1020;
+    background:linear-gradient(180deg,#a8c3ff,#7ea3fb);
+    box-shadow:0 12px 28px -14px rgba(120,160,255,.9),inset 0 1px 0 rgba(255,255,255,.55);
+  }
+  .btn-primary::after{
+    content:"";position:absolute;top:0;bottom:0;left:-45%;width:35%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent);
+    transform:skewX(-18deg);transition:left .65s var(--ease);pointer-events:none;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 36px -16px rgba(120,160,255,1),inset 0 1px 0 rgba(255,255,255,.6)}
+  .btn-primary:hover::after{left:125%}
+  .btn-ghost{
+    background:rgba(255,255,255,.03);border-color:var(--line-2);
+  }
+  .btn-ghost:hover{
+    transform:translateY(-2px);
+    border-color:rgba(138,176,255,.5);
+    background:rgba(138,176,255,.08);
+  }
+  .btn:active{transform:translateY(0) scale(.985)}
+  .btn-sm{padding:9px 18px;font-size:14px}
+
+  /* ============ Hero ============ */
+  .hero{position:relative;padding:clamp(66px,10vw,124px) 0 clamp(52px,7vw,88px);text-align:center;overflow:hidden}
+  .glow{position:absolute;z-index:0;border-radius:50%;filter:blur(72px);pointer-events:none}
+  .glow-a{width:420px;height:420px;left:50%;top:-150px;transform:translateX(-60%);background:rgba(96,140,255,.26);animation:drift-a 16s ease-in-out infinite}
+  .glow-b{width:300px;height:300px;right:4%;top:70px;background:rgba(255,201,120,.13);animation:drift-b 19s ease-in-out infinite}
+  @keyframes drift-a{0%,100%{transform:translateX(-60%) translateY(0)}50%{transform:translateX(-56%) translateY(18px)}}
+  @keyframes drift-b{0%,100%{transform:translate(0,0)}50%{transform:translate(-24px,22px)}}
+
+  .hero .wrap{position:relative;z-index:1}
+
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;margin-bottom:26px;
+    padding:7px 16px 7px 13px;border-radius:999px;
+    font-size:12.5px;letter-spacing:.02em;color:#c4cde6;
+    background:var(--surface);border:1px solid var(--line);
+  }
+  .pulse{position:relative;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(138,176,255,.9)}
+  .pulse::after{
+    content:"";position:absolute;inset:-5px;border-radius:50%;
+    border:1px solid rgba(138,176,255,.55);animation:ping 2.6s var(--ease) infinite;
+  }
+  @keyframes ping{0%{transform:scale(.55);opacity:.9}70%,100%{transform:scale(1.55);opacity:0}}
+
+  .hero h1{
+    margin:0 0 20px;
+    font-size:clamp(1.95rem,5.6vw,3.35rem);
+    font-weight:700;line-height:1.26;letter-spacing:-.022em;
+    background:linear-gradient(180deg,#fff 28%,#a6b4d6);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(100deg,#9dbcff,#d5e0ff 62%,#ffd79a);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero .lead{
+    max-width:37em;margin:0 auto 36px;
+    font-size:clamp(15px,1.6vw,16.5px);line-height:1.9;color:var(--dim);
+  }
+  .hero .btns{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+
+  .scroll-hint{
+    display:inline-flex;flex-direction:column;align-items:center;gap:9px;margin-top:58px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;color:var(--mute);
+  }
+  .scroll-hint .bar{position:relative;width:1px;height:38px;overflow:hidden;background:linear-gradient(180deg,var(--line-2),transparent)}
+  .scroll-hint .bar::after{
+    content:"";position:absolute;left:0;width:1px;height:38px;background:var(--accent);
+    animation:drip 2.8s var(--ease) infinite;
+  }
+  @keyframes drip{0%{top:-38px;opacity:0}30%{opacity:1}75%{top:38px;opacity:1}100%{top:38px;opacity:0}}
+
+  /* ============ 区块通用 ============ */
+  section{position:relative;padding:clamp(56px,8.5vw,102px) 0}
+  section[id]{scroll-margin-top:92px}
+
+  .section-head{max-width:660px;margin:0 auto 48px;text-align:center}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:12px;margin-bottom:16px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--mute);
+  }
+  .eyebrow::before,.eyebrow::after{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--line-2))}
+  .eyebrow::after{background:linear-gradient(90deg,var(--line-2),transparent)}
+  .section-head h2{
+    margin:0 0 12px;font-size:clamp(1.35rem,3.2vw,1.9rem);
+    font-weight:700;letter-spacing:-.018em;line-height:1.4;
+  }
+  .section-head p{margin:0;font-size:15px;color:var(--dim)}
+
+  /* ============ 卡片 ============ */
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+
+  .card{
+    position:relative;display:block;overflow:hidden;
+    padding:26px 24px;border:1px solid var(--line);border-radius:18px;
+    background:linear-gradient(180deg,var(--surface),var(--surface-2));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 20px 40px -34px rgba(0,0,0,.95);
+    color:var(--text);
+    transition:transform .4s var(--ease),border-color .4s ease,box-shadow .4s ease;
+  }
+  .card::before{
+    content:"";position:absolute;inset:0;opacity:0;pointer-events:none;
+    background:radial-gradient(340px circle at var(--mx,50%) var(--my,0%),rgba(138,176,255,.14),transparent 62%);
+    transition:opacity .4s ease;
+  }
+  .card>*{position:relative;z-index:1}
+  .card:hover{transform:translateY(-4px);border-color:rgba(138,176,255,.34);box-shadow:0 30px 56px -38px rgba(70,120,255,.85)}
+  .card:hover::before{opacity:1}
+
+  .card .ico{
+    display:grid;place-items:center;width:38px;height:38px;margin-bottom:15px;
+    border:1px solid var(--line);border-radius:12px;font-size:18px;
+    background:rgba(255,255,255,.05);
+    transition:transform .4s var(--ease),border-color .4s ease;
+  }
+  .card:hover .ico{transform:translateY(-2px) rotate(-4deg);border-color:rgba(138,176,255,.4)}
+  .card h3{margin:0 0 7px;font-size:16.5px;font-weight:650;letter-spacing:-.01em}
+  .card p{margin:0;font-size:14.5px;line-height:1.8;color:var(--dim)}
+  .card .no{margin-bottom:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:var(--mute)}
+  .card .go{
+    display:inline-flex;align-items:center;gap:6px;margin-top:16px;
+    font-size:13px;color:var(--accent);
+  }
+  .card .go i{font-style:normal;transition:transform .4s var(--ease)}
+  .card:hover .go i{transform:translateX(4px)}
+  a.card{border-color:var(--line)}
+  a.card:hover{color:var(--text)}
+
+  /* ============ 机器人名片 ============ */
+  .profile{
+    position:relative;overflow:hidden;
+    display:grid;grid-template-columns:minmax(0,1fr) auto;
+    gap:clamp(28px,5vw,64px);align-items:center;
+    padding:clamp(26px,4vw,46px);
+    border:1px solid var(--line);border-radius:26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+    box-shadow:0 44px 90px -66px rgba(0,0,0,1);
+  }
+  .profile::after{
+    content:"";position:absolute;right:-140px;top:-170px;width:440px;height:440px;border-radius:50%;
+    background:radial-gradient(circle,rgba(96,140,255,.17),transparent 68%);pointer-events:none;
+  }
+  .p-info{position:relative;z-index:1}
+  .p-head{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+  .p-avatar{
+    display:grid;place-items:center;width:54px;height:54px;flex:0 0 auto;
+    border-radius:17px;font-size:25px;
+    background:linear-gradient(150deg,rgba(138,176,255,.3),rgba(138,176,255,.06));
+    border:1px solid rgba(138,176,255,.32);
+    box-shadow:0 0 26px -8px rgba(120,160,255,.9);
+  }
+  .p-name{font-size:19px;font-weight:700;letter-spacing:-.012em}
+  .p-id{display:flex;align-items:center;gap:8px;margin-top:3px;font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+
+  .mini{
+    padding:3px 9px;border:1px solid var(--line);border-radius:999px;
+    font-family:var(--sans);font-size:11.5px;color:var(--accent);
+    background:rgba(138,176,255,.08);cursor:pointer;
+    transition:background-color .25s ease,border-color .25s ease;
+  }
+  .mini:hover{background:rgba(138,176,255,.18);border-color:rgba(138,176,255,.5)}
+
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px;padding:0;list-style:none}
+  .tags li{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:5px 12px;border:1px solid var(--line);border-radius:999px;
+    font-size:12.5px;color:#c3cbe3;background:rgba(255,255,255,.04);
+  }
+  .tags li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--dot,var(--accent));box-shadow:0 0 9px var(--dot,var(--accent))}
+  .tags .t-game{--dot:#b9a6ff}
+  .tags .t-mhy{--dot:#ffca7a}
+
+  .p-list{display:grid;gap:9px;margin:0 0 26px;padding:0;list-style:none}
+  .p-list li{position:relative;padding-left:19px;font-size:14.5px;color:var(--dim)}
+  .p-list li::before{
+    content:"";position:absolute;left:3px;top:.68em;width:5px;height:5px;border-radius:50%;
+    background:var(--accent);box-shadow:0 0 10px rgba(138,176,255,.9);
+  }
+  .p-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+  .phone-wrap{position:relative;display:flex;justify-content:center;z-index:1}
+  .phone-wrap::before{
+    content:"";position:absolute;inset:6% -14% 6% -14%;border-radius:50%;
+    background:radial-gradient(circle,rgba(96,140,255,.2),transparent 66%);
+    filter:blur(34px);animation:breathe 6.5s ease-in-out infinite;
+  }
+  @keyframes breathe{0%,100%{opacity:.65;transform:scale(.97)}50%{opacity:1;transform:scale(1.03)}}
+  .phone{
+    position:relative;width:clamp(240px,26vw,318px);padding:8px;border-radius:32px;
+    background:linear-gradient(180deg,#1d2238,#12162a);
+    border:1px solid var(--line-2);
+    box-shadow:0 40px 80px -46px rgba(0,0,0,1),inset 0 1px 0 rgba(255,255,255,.07);
+  }
+  .phone::before{
+    content:"";position:absolute;left:50%;top:3px;z-index:2;width:48px;height:3px;
+    transform:translateX(-50%);border-radius:99px;background:rgba(255,255,255,.16);
+  }
+  .phone a{display:block;border-radius:25px;overflow:hidden;cursor:pointer}
+  .phone img{display:block;width:100%;border-radius:25px;background:#fff;transition:transform .7s var(--ease)}
+  .phone a:hover img{transform:scale(1.03)}
+  .qr-caption{margin-top:16px;text-align:center;font-size:12.5px;color:var(--mute)}
+
+  /* ============ 支持 ============ */
+  .support{
+    position:relative;overflow:hidden;
+    padding:clamp(28px,4.5vw,54px);
+    border:1px solid var(--line);border-radius:28px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.012));
+  }
+  .support::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+    background:linear-gradient(160deg,rgba(138,176,255,.45),transparent 42%,transparent 58%,rgba(255,202,122,.3));
+    -webkit-mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
+    mask:linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+  }
+  .pay-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:34px}
+  .pay{
+    padding:24px 22px;border:1px solid var(--line);border-radius:20px;
+    background:rgba(255,255,255,.025);text-align:center;
+    transition:transform .4s var(--ease),border-color .4s ease,background-color .4s ease;
+  }
+  .pay:hover{transform:translateY(-3px);border-color:var(--line-2);background:rgba(255,255,255,.042)}
+  .pay h3{margin:0 0 5px;font-size:16.5px;font-weight:650}
+  .pay .sub{margin:0 0 18px;font-size:12.5px;color:var(--mute)}
+  .pay .qr{
+    display:grid;place-items:center;width:min(236px,100%);aspect-ratio:1;
+    margin:0 auto 18px;padding:10px;border-radius:18px;background:#fff;
+    box-shadow:0 20px 36px -26px rgba(0,0,0,.9);
+    transition:transform .5s var(--ease);
+  }
+  .pay:hover .qr{transform:scale(1.015)}
+  .pay .qr img{display:block;width:100%;height:100%;object-fit:contain;border-radius:8px}
+  .pay .thanks{font-size:13px;color:#cbd3e8}
+  .pay .thanks span{color:var(--spark)}
+
+  /* ============ 联系主人 ============ */
+  .owner{
+    max-width:580px;margin:0 auto;padding:clamp(28px,4vw,40px);
+    border:1px solid var(--line);border-radius:24px;text-align:center;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014));
+    box-shadow:0 40px 80px -64px rgba(0,0,0,1);
+  }
+  .owner-top{display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:16px}
+  .avatar{
+    display:grid;place-items:center;width:52px;height:52px;flex:0 0 auto;border-radius:50%;font-size:23px;
+    background:linear-gradient(140deg,rgba(138,176,255,.34),rgba(138,176,255,.07));
+    border:1px solid rgba(138,176,255,.3);
+    box-shadow:0 0 26px -8px rgba(120,160,255,.9);
+  }
+  .owner-name{font-size:17.5px;font-weight:700;letter-spacing:-.01em}
+  .owner-id{margin-top:2px;font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+  .owner-desc{max-width:30em;margin:0 auto 26px;font-size:14.5px;line-height:1.85;color:var(--dim)}
+
+  /* ============ 页脚 ============ */
+  footer{border-top:1px solid var(--line);padding:38px 0 46px;text-align:center}
+  footer .f1{font-size:13.5px;color:var(--dim)}
+  footer .f2{margin-top:9px;font-size:12.5px;color:var(--mute)}
+  footer a{color:var(--mute);transition:color .25s ease}
+  footer a:hover{color:var(--accent)}
+
+  /* ============ 提示条 ============ */
+  .toast{
+    position:fixed;left:50%;bottom:32px;z-index:90;
+    display:flex;align-items:center;gap:9px;padding:11px 20px;border-radius:999px;
+    font-size:13.5px;color:var(--text);
+    background:rgba(24,29,46,.94);border:1px solid var(--line-2);
+    box-shadow:0 24px 44px -22px rgba(0,0,0,.95);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    opacity:0;pointer-events:none;transform:translate(-50%,18px);
+    transition:opacity .35s ease,transform .45s var(--ease);
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .toast .tick{color:var(--spark)}
+
+  /* ============ 入场动画 ============ */
+  [data-reveal]{
+    opacity:0;transform:translateY(22px);
+    transition:opacity .85s var(--ease),transform .85s var(--ease);
+    transition-delay:var(--d,0ms);
+  }
+  [data-reveal].in{opacity:1;transform:none}
+  /* 没有 JS 时直接展示，避免内容被动画藏住 */
+  html:not(.js) [data-reveal]{opacity:1;transform:none;transition:none}
+
+  .stage{opacity:0;transform:translateY(24px);animation:rise .95s var(--ease) forwards;animation-delay:var(--d,0ms)}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* ============ 响应式 ============ */
+  @media(max-width:940px){
+    .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media(max-width:800px){
+    .nav-links{display:none}
+    .profile{grid-template-columns:1fr;gap:36px;text-align:center}
+    .p-head{flex-direction:column;gap:13px}
+    .p-id{justify-content:center}
+    .tags{justify-content:center}
+    .p-list{justify-items:center}
+    .p-list li{max-width:320px;text-align:left}
+    .p-actions{justify-content:center}
+    .phone{width:min(300px,76vw)}
+  }
+  @media(max-width:640px){
+    .wrap{padding:0 18px}
+    .cards{grid-template-columns:1fr}
+    .pay-grid{grid-template-columns:1fr;gap:14px}
+    .glow{display:none}
+    .hero .btns .btn{flex:1 1 100%}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{
+      animation-duration:.001ms!important;animation-iteration-count:1!important;
+      transition-duration:.001ms!important;
+    }
+    [data-reveal],.stage{opacity:1!important;transform:none!important}
+  }
 </style>
 </head>
-<body>
-<div class="toast" id="toast">已复制 QQ 号 ✓</div>
+<body id="top">
 
-<nav class="wrap">
-  <div class="logo">🦋 Firefly<span>Bot</span></div>
-  <div class="links">
-    <a href="#robot">机器人</a>
-    <a href="#features">功能</a>
-    <a href="#support">支持我</a>
-    <a href="#about">关于</a>
+<div class="progress" id="progress"></div>
+
+<div class="toast" id="toast"><span class="tick">✓</span><span class="msg">已复制</span></div>
+
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="mark">🦋</span>Firefly<b>Bot</b></a>
+    <div class="nav-links">
+      <a href="#robot">机器人</a>
+      <a href="#features">功能</a>
+      <a href="#support">支持我</a>
+      <a href="#about">成本</a>
+      <a href="#contact">联系</a>
+    </div>
+    <a class="btn btn-primary btn-sm" href="#support">支持一下</a>
   </div>
 </nav>
 
 <!-- Hero -->
-<header class="hero wrap">
-  <div class="badge">为爱发电 · 持续运行中</div>
-  <h1>用一点点支持<br>守护每一次对话</h1>
-  <p>AI 机器人 7×24 在线陪聊、陪你玩。服务器续费 + AI 接口充值，需要你的每一份心意。</p>
-  <div class="btns">
-    <a class="btn btn-primary" href="#support">❤️ 支持一下</a>
-    <a class="btn btn-ghost" href="#robot">🤖 加我为好友</a>
+<header class="hero">
+  <span class="glow glow-a"></span>
+  <span class="glow glow-b"></span>
+  <div class="wrap">
+    <div class="badge stage" style="--d:0ms"><span class="pulse"></span>为爱发电 · 服务运行中</div>
+    <h1 class="stage" style="--d:90ms">用一点点支持<br><em>守护每一次对话</em></h1>
+    <p class="lead stage" style="--d:180ms">Firefly 是一只 7×24 在线的 QQ 机器人，陪聊、陪你玩、帮你签到。<br>服务器要续费，AI 接口要充值，所以有了这个小站。</p>
+    <div class="btns stage" style="--d:270ms">
+      <a class="btn btn-primary" href="#support">❤️ 支持一下</a>
+      <a class="btn btn-ghost" id="heroAdd" href="#robot">🤖 加我为好友</a>
+    </div>
+    <div class="scroll-hint stage" style="--d:380ms">向下滚动<span class="bar"></span></div>
   </div>
-  <div class="scroll-hint">向下滚动 ⌄</div>
 </header>
 
 <!-- 机器人 -->
-<section id="robot" class="wrap">
-  <div class="section-head"><div class="icon">🤖</div><h2>About Me</h2><p>扫描下面的二维码，或在 QQ 搜索 QQ 号，即可添加我～</p></div>
-  <div class="cards">
-    <div class="card copy-card" style="max-width:340px;margin:0 auto">
-      <div class="num">QQ · 2505643443</div>
-      <div class="cap">Firefly · 流萤</div>
-      <a class="qr-box" id="friendLink" href="#" target="_blank" title="点击添加好友">
-        <img src="assets/qq_friend_qr.png" alt="QQ 好友二维码">
-      </a>
-      <div class="qr-tip">
-        <span>📱 点击图片或扫码加好友</span>
-        <span class="mini" onclick="copyQQ()">复制 QQ</span>
+<section id="robot">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">ABOUT</span>
+      <h2>扫码，就能带我回群里</h2>
+      <p>手机 QQ 扫一扫，或者直接在 QQ 里搜索号码添加</p>
+    </div>
+
+    <div class="profile" data-reveal>
+      <div class="p-info">
+        <div class="p-head">
+          <div class="p-avatar">🦋</div>
+          <div>
+            <div class="p-name">Firefly · 流萤</div>
+            <div class="p-id">
+              QQ 2505643443
+              <button class="mini" type="button" data-copy="2505643443" data-msg="QQ 号已复制">复制</button>
+            </div>
+          </div>
+        </div>
+
+        <ul class="tags">
+          <li class="t-ai">AI 群聊</li>
+          <li class="t-game">游戏工具</li>
+          <li class="t-mhy">米游社签到</li>
+        </ul>
+
+        <ul class="p-list">
+          <li>7×24 小时在线，随时喊我一声就行</li>
+          <li>所有功能免费开放，没有隐藏付费</li>
+          <li>拉进群就能用，不用额外配置</li>
+        </ul>
+
+        <div class="p-actions">
+          <a class="btn btn-primary" id="friendBtn" href="#" target="_blank" rel="noopener">加为好友</a>
+          <button class="btn btn-ghost" type="button" data-copy="2505643443" data-msg="QQ 号已复制">复制 QQ 号</button>
+        </div>
       </div>
-      <div style="margin-top:14px">
-        <span class="tag t-ai">💬 AI 群聊</span>
-        <span class="tag t-game">🎮 游戏功能</span>
-        <span class="tag t-mhy">✅ 米游社签到</span>
+
+      <div class="phone-wrap">
+        <div>
+          <div class="phone">
+            <a id="friendLink" href="#" target="_blank" rel="noopener" title="点击直接添加好友">
+              <img src="assets/qq_friend_qr.png" alt="Firefly 的 QQ 好友二维码">
+            </a>
+          </div>
+          <div class="qr-caption">点一下图片，直接跳转 QQ 加好友</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- 功能 -->
-<section id="features" class="wrap">
-  <div class="section-head"><div class="icon">✨</div><h2>能陪你做的，比你想的更多</h2><p>群聊 AI 聊天 + 米游社系列游戏功能，全部免费开放</p></div>
-  <div class="cards">
-    <div class="card"><div class="cap">💬 群聊 AI 娱乐</div><p style="color:var(--muted);font-size:14px">拉进群即可陪聊，脑筋急转弯、成语接龙、今日运势……活跃群气氛的一把好手</p></div>
-    <a class="card card-link" href="https://ys.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">🗡️ 原神</div><p style="color:var(--muted);font-size:14px">角色 / 武器 / 材料查询、深渊配队建议、抽卡分析等常用功能</p><span class="go">打开官网 →</span></a>
-    <a class="card card-link" href="https://sr.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">🚂 崩坏：星穹铁道</div><p style="color:var(--muted);font-size:14px">星铁角色养成、光锥与遗器查询、配队推荐</p><span class="go">打开官网 →</span></a>
-    <a class="card card-link" href="https://zzz.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">📟 绝区零</div><p style="color:var(--muted);font-size:14px">代理人养成、音擎与驱动盘查询</p><span class="go">打开官网 →</span></a>
-    <a class="card card-link" href="https://bh3.mihoyo.com/" target="_blank" rel="noopener"><div class="cap">⚡ 崩坏3</div><p style="color:var(--muted);font-size:14px">女武神、圣痕与武器查询</p><span class="go">打开官网 →</span></a>
-    <div class="card"><div class="cap">📅 米游社自动签到</div><p style="color:var(--muted);font-size:14px">绑定账号后每日自动签到，奖励天天领</p></div>
+<section id="features">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">FEATURES</span>
+      <h2>能陪你做的，比你想的更多</h2>
+      <p>群聊 AI 陪聊 + 米游社全套游戏工具，全部免费开放</p>
+    </div>
+
+    <div class="cards" data-stagger>
+      <div class="card" data-reveal>
+        <div class="ico">💬</div>
+        <h3>群聊 AI 陪聊</h3>
+        <p>拉进群就能聊：脑筋急转弯、成语接龙、今日运势，活跃气氛的一把好手。</p>
+      </div>
+      <div class="card" data-reveal>
+        <div class="ico">📅</div>
+        <h3>米游社自动签到</h3>
+        <p>绑定账号后每天自动签到，奖励不漏领，再也不用记着上线。</p>
+      </div>
+      <a class="card" href="https://ys.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
+        <div class="ico">🗡️</div>
+        <h3>原神</h3>
+        <p>角色 / 武器 / 材料查询、深渊配队建议、抽卡分析等常用功能。</p>
+        <span class="go">打开官网 <i>→</i></span>
+      </a>
+      <a class="card" href="https://sr.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
+        <div class="ico">🚂</div>
+        <h3>崩坏：星穹铁道</h3>
+        <p>角色养成、光锥与遗器查询、配队推荐，随手就能查。</p>
+        <span class="go">打开官网 <i>→</i></span>
+      </a>
+      <a class="card" href="https://zzz.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
+        <div class="ico">📟</div>
+        <h3>绝区零</h3>
+        <p>代理人养成、音擎与驱动盘查询。</p>
+        <span class="go">打开官网 <i>→</i></span>
+      </a>
+      <a class="card" href="https://bh3.mihoyo.com/" target="_blank" rel="noopener" data-reveal>
+        <div class="ico">⚡</div>
+        <h3>崩坏 3</h3>
+        <p>女武神、圣痕与武器查询。</p>
+        <span class="go">打开官网 <i>→</i></span>
+      </a>
+    </div>
   </div>
 </section>
 
 <!-- 支持 -->
-<section id="support" class="wrap">
-  <div class="support">
-    <div style="text-align:center">
-      <div class="section-head" style="margin-bottom:8px"><div class="icon">❤️</div><h2>投喂赞助一下 · 谢谢喵~</h2></div>
-      <p style="color:var(--muted)">你的支持，让机器人能继续陪伴大家。十连双金不歪 ❤</p>
-    </div>
-    <div class="grid">
-      <div class="pay-box">
-        <h3>💚 微信支付</h3>
-        <div class="sub">微信扫一扫 · 备注昵称更暖心</div>
-        <img src="assets/wechat_code.jpg" alt="微信赞赏码">
-        <div class="thanks">♥ 喵呜～心意收到啦</div>
+<section id="support">
+  <div class="wrap">
+    <div class="support" data-reveal>
+      <div class="section-head" style="margin-bottom:0">
+        <span class="eyebrow">SUPPORT</span>
+        <h2>投喂一下 · 谢谢喵~</h2>
+        <p>你的支持会变成服务器续费和 AI 接口额度，让机器人继续陪着大家</p>
       </div>
-      <div class="pay-box">
-        <h3>💙 支付宝</h3>
-        <div class="sub">支付宝扫一扫 · 感谢支持</div>
-        <img src="assets/alipay_code.jpg" alt="支付宝收款码">
-        <div class="thanks">♥ 愿你天天开心，我也天天在线</div>
+
+      <div class="pay-grid" data-stagger>
+        <div class="pay" data-reveal>
+          <h3>💚 微信支付</h3>
+          <p class="sub">微信扫一扫 · 备注昵称更暖心</p>
+          <div class="qr"><img src="assets/wechat_code.jpg" alt="微信赞赏码" loading="lazy" decoding="async"></div>
+          <div class="thanks"><span>♥</span> 喵呜～心意收到啦</div>
+        </div>
+        <div class="pay" data-reveal>
+          <h3>💙 支付宝</h3>
+          <p class="sub">支付宝扫一扫 · 感谢支持</p>
+          <div class="qr"><img src="assets/alipay_code.jpg" alt="支付宝收款码" loading="lazy" decoding="async"></div>
+          <div class="thanks"><span>♥</span> 愿你天天开心，我也天天在线</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 关于 -->
-<section id="about" class="wrap">
-  <div class="section-head"><div class="icon">📮</div><h2>为什么需要你的支持</h2><p>机器人的每一句回复背后，都有服务器和 AI 接口的成本</p></div>
-  <div class="cards">
-    <div class="card"><div class="cap">🖥️ 服务器租赁</div><p style="color:var(--muted);font-size:14px">机器人 7×24 在线运行的「房租」</p></div>
-    <div class="card"><div class="cap">🤖 AI 接口</div><p style="color:var(--muted);font-size:14px">每句对话背后的按量计费</p></div>
-    <div class="card"><div class="cap">🌟 持续更新</div><p style="color:var(--muted);font-size:14px">新功能开发的动力源泉</p></div>
+<!-- 成本 -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">COST</span>
+      <h2>这些钱都花在哪了</h2>
+      <p>机器人的每一句回复背后，都是实打实的开销</p>
+    </div>
+
+    <div class="cards" data-stagger>
+      <div class="card" data-reveal>
+        <div class="no">01</div>
+        <h3>🖥️ 服务器租赁</h3>
+        <p>机器人 7×24 在线运行的「房租」，一天也不能停。</p>
+      </div>
+      <div class="card" data-reveal>
+        <div class="no">02</div>
+        <h3>🔌 AI 接口</h3>
+        <p>每句对话背后的按量计费，聊得越多，账单越长。</p>
+      </div>
+      <div class="card" data-reveal>
+        <div class="no">03</div>
+        <h3>🌱 持续更新</h3>
+        <p>新功能开发和修 bug 的时间，也算一点点动力来源。</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- 联系主人 -->
-<section id="contact" class="wrap">
-  <div class="section-head"><div class="icon">💌</div><h2>遇到问题？来找我呀</h2><p>机器人的每一句回复，都希望能帮到你。有任何困扰或点子，都欢迎跟我说～</p></div>
-  <div class="owner-card">
-    <div class="owner-info">
-      <div class="avatar">👑</div>
-      <div>
-        <div class="owner-name">主人 · Aether&Lumine</div>
-        <div class="owner-id">QQ：1938649156</div>
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">CONTACT</span>
+      <h2>遇到问题，来找我就好</h2>
+      <p>抽风、失效、有新点子，都欢迎直接跟我说</p>
+    </div>
+
+    <div class="owner" data-reveal>
+      <div class="owner-top">
+        <div class="avatar">👑</div>
+        <div style="text-align:left">
+          <div class="owner-name">主人 · Aether&amp;Lumine</div>
+          <div class="owner-id">QQ 1938649156</div>
+        </div>
+      </div>
+      <p class="owner-desc">机器人抽风、功能失效、玩得不顺心，或者有超棒的改进建议——都欢迎直接加我聊聊。你的每一条反馈我都会认真看，说不定下个版本就实现啦。</p>
+      <div class="p-actions" style="justify-content:center">
+        <a class="btn btn-primary" href="https://qm.qq.com/q/5fxl8YN1kQ" target="_blank" rel="noopener">📩 加我为好友</a>
+        <button class="btn btn-ghost" type="button" data-copy="1938649156" data-msg="主人 QQ 已复制">复制 QQ 号</button>
       </div>
     </div>
-    <p class="owner-desc">机器人抽风、功能失效、玩得不顺心，或者有超棒的改进建议——都欢迎直接加我聊聊。你的每一条反馈，我都会认真看，说不定下个版本就实现啦～</p>
-    <a class="btn btn-primary owner-btn" href="https://qm.qq.com/q/5fxl8YN1kQ" target="_blank" rel="noopener">📩 点击加我为好友</a>
   </div>
 </section>
 
-<footer class="wrap">
-  🦋 FireflyBot · 用爱发电，持续营业中
+<footer>
+  <div class="wrap">
+    <div class="f1">🦋 FireflyBot · 用爱发电，持续营业中</div>
+    <div class="f2">© 2026 Aether&amp;Lumine · <a href="#top">回到顶部</a> · <a href="https://github.com/PhiLia011/fireflytip" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
 </footer>
 
 <script>
-  // ========== 配置区：把下面两项改成你的真实信息 ==========
-  // 1) QQ 加好友链接（点二维码图片直接跳转）。没有可留空，图片将不跳转仅展示。
-  const QQ_ADD_URL = "https://qm.qq.com/q/dV6q9frRRY";  // 点二维码直接加好友
-  const QQ_NUMBER  = "2505643443";
-  // ========================================================
+  // ========== 配置区 ==========
+  const QQ_ADD_URL = "https://qm.qq.com/q/dV6q9frRRY";   // 点二维码 / 加好友按钮跳转
+  const QQ_NUMBER  = "2505643443";                        // 机器人 QQ
+  // ============================
 
-  const link = document.getElementById("friendLink");
-  if (QQ_ADD_URL) {
-    link.href = QQ_ADD_URL;
-    link.setAttribute("rel","noopener");
-  } else {
-    link.href = "#";
-    link.addEventListener("click", e=>e.preventDefault());
+  const $  = (s,r)=> (r||document).querySelector(s);
+  const $$ = (s,r)=> Array.from((r||document).querySelectorAll(s));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- 加好友链接 ---- */
+  [ $('#friendLink'), $('#friendBtn'), $('#heroAdd') ].forEach(el=>{
+    if(!el) return;
+    if(QQ_ADD_URL){ el.href = QQ_ADD_URL; el.target = '_blank'; el.rel = 'noopener'; }
+    else if(el.id === 'heroAdd'){ el.href = '#robot'; }
+    else { el.href = '#'; el.addEventListener('click', e=>e.preventDefault()); }
+  });
+
+  /* ---- 复制 & 提示 ---- */
+  let toastTimer;
+  function toast(msg){
+    const t = $('#toast');
+    $('.msg', t).textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>t.classList.remove('show'), 1800);
+  }
+  function legacyCopy(text, done){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly','');
+    ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+  document.addEventListener('click', e=>{
+    const btn = e.target && e.target.closest ? e.target.closest('[data-copy]') : null;
+    if(!btn) return;
+    const text = btn.dataset.copy, msg = btn.dataset.msg || '已复制';
+    const done = ()=> toast(msg);
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done, ()=> legacyCopy(text, done));
+    }else{
+      legacyCopy(text, done);
+    }
+  });
+
+  /* ---- 滚动入场 ---- */
+  $$('[data-stagger]').forEach(box=>{
+    $$('[data-reveal]', box).forEach((el,i)=> el.style.setProperty('--d', (i*75)+'ms'));
+  });
+  const reveals = $$('[data-reveal]');
+  if(reduce || !('IntersectionObserver' in window)){
+    reveals.forEach(el=>el.classList.add('in'));
+  }else{
+    let fired = false;
+    const io = new IntersectionObserver((entries)=>{
+      fired = true;
+      entries.forEach(en=>{
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin:'0px 0px -8% 0px', threshold:.12 });
+    reveals.forEach(el=>io.observe(el));
+    // 兜底：观察器没有回调节奏时直接显示，避免内容被动画藏住
+    setTimeout(()=>{ if(!fired) reveals.forEach(el=>el.classList.add('in')); }, 1600);
   }
 
-  function copyQQ(){
-    navigator.clipboard.writeText(QQ_NUMBER).then(()=>{
-      const t=document.getElementById("toast"); t.classList.add("show");
-      setTimeout(()=>t.classList.remove("show"),1600);
+  /* ---- 导航状态 / 阅读进度 / 当前区块 ---- */
+  const nav = $('#nav'), bar = $('#progress');
+  let ticking = false;
+  function onScroll(){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? doc.scrollTop/max : 0) + ')';
+    nav.classList.toggle('scrolled', doc.scrollTop > 8);
+    ticking = false;
+  }
+  addEventListener('scroll', ()=>{
+    if(!ticking){ ticking = true; requestAnimationFrame(onScroll); }
+  }, {passive:true});
+  onScroll();
+
+  const links = new Map($$('.nav-links a').map(a=>[a.hash.slice(1), a]));
+  if('IntersectionObserver' in window){
+    const spy = new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{
+        const link = links.get(en.target.id);
+        if(!link || !en.isIntersecting) return;
+        links.forEach(l=>l.classList.remove('active'));
+        link.classList.add('active');
+      });
+    }, { rootMargin:'-45% 0px -50% 0px' });
+    $$('section[id]').forEach(s=>spy.observe(s));
+  }
+
+  /* ---- 卡片跟随鼠标的柔光 ---- */
+  if(!reduce && matchMedia('(hover:hover) and (pointer:fine)').matches){
+    $$('.card').forEach(card=>{
+      card.addEventListener('pointermove', e=>{
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
     });
   }
 </script>
