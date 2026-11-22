@@ -12,7 +12,6 @@
 <script>document.documentElement.classList.add('js');</script>
 <style>
   :root{
-    /* 底色：偏中性的深夜蓝黑，避免纯蓝底的廉价感 */
     --ink:#0a0c14;
     --surface:rgba(255,255,255,.045);
     --surface-2:rgba(255,255,255,.015);
@@ -23,7 +22,6 @@
     --dim:#a3abc4;
     --mute:#6f7893;
 
-    /* 主色：萤火蓝；点缀：萤火暖光 */
     --accent:#8ab0ff;
     --accent-deep:#6a92f0;
     --spark:#ffca7a;
@@ -50,14 +48,12 @@
     font-size:16px;
     line-height:1.75;
     color:var(--text);
-    /* 底色交给 html，body 保持透明，负层级的光晕才不会被盖住 */
     background:transparent;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
   }
 
-  /* 背景：三层极淡的光晕 + 一层噪点，避免大色块的塑料感 */
   body::before{
     content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
     background:
